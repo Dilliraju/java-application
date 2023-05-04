@@ -1,33 +1,27 @@
 pipeline {
     agent any
     tools{
-        maven "Maven3.8.7"
+        maven 'maven3.9.1'
     }
 
     stages {
-        stage('Clone the Repository ') {
+        stage('clone the code') {
             steps {
-               git branch: 'static-code-analysis-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/techworldwithmurali/java-application.git'
-               
-               
+                git branch: 'static-code-analysis-jenkinsfile', credentialsId: 'github-token', url: 'https://github.com/Dilliraju/java-application.git'
             }
         }
-        
-        stage('Build the maven code') {
+        stage('static code deploy') {
             steps {
                 sh 'mvn clean install'
-           }
-        }    
-        
+            }
+        }
         stage('Static code analysis') {
             steps {
-        withSonarQubeEnv('Sonarqube-8.9.10') {
+        withSonarQubeEnv('sonarqube') {
                     sh  "mvn sonar:sonar"
                 }
                 }
                 
             }
-        
-        
     }
 }
