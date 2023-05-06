@@ -1,45 +1,11 @@
 pipeline {
     agent any
-    tools{
-        maven "Maven3.9.1"
-    }
+
     stages {
-      stage('Clone the repository'){
-        steps{
-          git branch: 'pushing-docker-image-to-ecr-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/Dilliraju/java-application.git'
-          
-        } 
-      }
-      
-  stage('Build the code') {
+        stage('clone the data') {
             steps {
-                sh 'mvn clean install'
+                git branch: 'pushing-docker-image-to-ecr-jenkinsfile', credentialsId: 'github-token', url: 'https://github.com/Dilliraju/java-application.git'
             }
-        }    
-      
-   stage('Build Docker Image') {
-            steps {
-                sh '''
-              docker build . --tag web-application:$BUILD_NUMBER
-              docker tag web-application:$BUILD_NUMBER 108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
-                
-                '''
-                
-            }
-        }  
-      
-      stage('Push Docker Image') {
-          steps{
- withAWS(credentials: 'AWS', region: 'us-east-1') {
-       
-                    sh '''
-                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 108290765801.dkr.ecr.us-east-1.amazonaws.com
-                   docker push 108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
-                    '''
-                }
-            } 
-            
-      }
-      
+        }
     }
 }
