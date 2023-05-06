@@ -32,8 +32,8 @@ pipeline {
           steps{
  withAWS(credentials: 'aws-cred', region: 'us-east-1') {
                    sh '''
-                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 108290765801.dkr.ecr.us-east-1.amazonaws.com
-                   docker push 108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
+                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 42711227869.dkr.ecr.us-east-1.amazonaws.com
+                   docker push 42711227869.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
                     '''
                 }
             }
