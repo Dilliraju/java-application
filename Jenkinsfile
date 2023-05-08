@@ -16,5 +16,17 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
+        
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+              docker build . --tag web-apps:latest
+              docker tag web-apps:latest dilliraju.jfrog.io/web-applications/web-apps:latest
+                
+                '''
+                
+            }
+        }
+        
     }
 }
