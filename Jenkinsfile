@@ -28,5 +28,18 @@ pipeline {
             }
         }
         
+        stage('Push Docker Image') {
+            steps {
+                  withCredentials([usernamePassword(credentialsId: 'jfrog-credentails', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
+       
+                    sh '''
+                    docker login -u $JFROG_USERNAME -p $JFROG_PASSWORD dilliraju.jfrog.io
+                        docker push dilliraju.jfrog.io/web-applications/web-apps:latest
+                    '''
+                }
+            } 
+            
+        } 
+        
     }
 }
