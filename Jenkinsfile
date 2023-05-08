@@ -30,7 +30,8 @@ pipeline {
         
         stage('Push Docker Image') {
           steps{
- withAWS(credentials: 'AWS', region: 'us-east-1') {
+ withAWS(credentials: 'aws-cred', region: 'us-east-1') {
+     
        
                     sh '''
                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 42711227869.dkr.ecr.us-east-1.amazonaws.com
