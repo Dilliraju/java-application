@@ -7,7 +7,14 @@ pipeline {
     stages {
         stage('clone the code') {
             steps {
-                
+                git branch: 'pushing-docker-image-to-jfrog-jenkinsfile', credentialsId: 'github-token', url: 'https://github.com/Dilliraju/java-application.git'
+            }
+        }
+        
+        stages {
+        stage('build the code') {
+            steps {
+                maven 'mvn clean package'
             }
         }
     }
