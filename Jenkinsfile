@@ -16,31 +16,5 @@ pipeline {
                 sh 'mvn clean install'
             }
         }    
-    stage('Build Docker Image') {
-            steps {
-                sh '''
-              docker build . --tag web-app:latest
-              docker tag web-app:latest a0alrhqhzjivs.jfrog.io/web-application/web-app:latest
-                
-                '''
-                
-            }
-        }
-    
- stage('Push Docker Image') {
-            steps {
-                  withCredentials([usernamePassword(credentialsId: 'Jfrog-credentails', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
-       
-                    sh '''
-                    docker login -u $JFROG_USERNAME -p $JFROG_PASSWORD a0alrhqhzjivs.jfrog.io
-                        docker push a0alrhqhzjivs.jfrog.io/web-application/web-app:latest
-                    '''
-                }
-            } 
-            
-        }     
-         
-
-      
     }
 }
