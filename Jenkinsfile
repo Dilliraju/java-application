@@ -30,7 +30,7 @@ pipeline {
         
         stage('Push Docker Image') {
             steps {
-                  withCredentials([usernamePassword(credentialsId: 'jfrog-credentails', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
+                  withCredentials([usernamePassword(credentialsId: 'jfrog-credential', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
        
                     sh '''
                     docker login -u $JFROG_USERNAME -p $JFROG_PASSWORD dilliraju.jfrog.io
