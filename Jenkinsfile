@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools{
-        maven "Maven3.8.7"
+        maven "Maven3.9.1"
     }
     stages {
       stage('Clone the repository'){
         steps{
-          git branch: 'pushing-docker-image-to-jfrog-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/techworldwithmurali/java-application.git'
+          git branch: 'pushing-docker-image-to-jfrog-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/Dilliraju/java-application.git'
           
         } 
       }
