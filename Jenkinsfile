@@ -30,7 +30,8 @@ pipeline {
         
         stage('Push Docker Image') {
             steps{
-                withCredentials([usernamePassword(credentialsId: 'docker-credential', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credential', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+   
                  sh '''
                  docker login -u $DOCKER_HUB_USERNAME   -p $DOCKER_HUB_PASSWORD
                   docker push dilliraju/web-application:$BUILD_NUMBER
