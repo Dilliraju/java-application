@@ -40,5 +40,21 @@ pipeline {
             }
             
         }
+        
+        stage('Deployto AWS EKS') {
+            steps {
+                withAWS(credentials: 'aws', region: 'us-east-1') {
+  sh '''
+                aws eks update-kubeconfig --name dev-cluster --region us-east-1
+                cd kubernetes-yaml
+                kubectl apply -f .
+                
+                kubectl set image deployment/web-app web-application=dilliraju/web-application:$BUILD_NUMBER
+                
+  
+  '''
     }
-}
+               }      
+             }
+         }
+      }
