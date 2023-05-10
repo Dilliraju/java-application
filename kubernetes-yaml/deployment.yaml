@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web-application
-        image: mmreddy424/web-application:latest
+        image: dilliraju/web-application:latest
         ports:
         - containerPort: 8080
       imagePullSecrets:
