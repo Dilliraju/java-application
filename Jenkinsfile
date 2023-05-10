@@ -36,7 +36,7 @@ pipeline {
                   docker push dilliraju/web-application:$BUILD_NUMBER
                     
                    ''' 
-}
+    }
             }
             
         }
