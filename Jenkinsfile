@@ -38,8 +38,28 @@ pipeline {
                     '''
                 }
             } 
+           }
+        
+        stage('Deployto AWS EKS') {
+            steps {
+                // configure AWS credentials
+               withAWS(credentials: 'aws', region: 'us-east-1') {
+
+                   // Connect to the EKS cluster
+                    sh '''
+                     aws eks update-kubeconfig --name dev-cluster --region us-east-1
+                     
+           
+                      cd kubernetes-yaml
+                      kubectl apply -f .
+                      kubectl set image deployment/web-app web-application=427112278691.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
+                    '''
+                }
+           
+        }
             
-      }
+        }
+        
     }
 }
 
