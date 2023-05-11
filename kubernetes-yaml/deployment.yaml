@@ -15,8 +15,8 @@ spec:
         app: web-app
     spec:
       containers:
-      - name: web-application
-        image: a0twcdxxwofaz.jfrog.io/web-application/web-app:latest
+      - name: web-applications
+        image: a0jx9f3ehkvj8.jfrog.io/artifactory/web-applications/
         ports:
         - containerPort: 8080
       imagePullSecrets:
