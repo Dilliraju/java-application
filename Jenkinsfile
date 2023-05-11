@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools{
-        maven "Maven3.9.1"
+        maven "maven3.9.1"
     }
     stages {
       stage('Clone the repository'){
