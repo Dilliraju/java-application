@@ -17,8 +17,8 @@ spec:
       imagePullSecrets:
       - name: regcred
       containers:
-      - name: web-application
-        image: devopsmurali.jfrog.io/web-application/web-app:latest
+      - name: web-applications
+        image: dilliraju.jfrog.io/web-applications/web-app:latest
         ports:
         - containerPort: 8080
       imagePullSecrets:
