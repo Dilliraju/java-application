@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools{
-        maven "Maven3.8.7"
+        maven "maven3.9.1"
     }
     stages {
       stage('Clone the repository'){
         steps{
-          git branch: 'deploy-to-eks-jfrog-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/techworldwithmurali/java-application.git'
+          git branch: 'deploy-to-eks-jfrog-jenkinsfile', credentialsId: 'Github-token', url: 'https://github.com/Dilliraju/java-application.git'
           
         } 
       }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
               docker build . --tag web-app:$BUILD_NUMBER
-              docker tag web-app:$BUILD_NUMBER devopsmurali.jfrog.io/web-application/web-app:$BUILD_NUMBER
+              docker tag web-app:$BUILD_NUMBER dilliraju.jfrog.io/web-applications/web-app:$BUILD_NUMBER
                 
                 '''
                 
@@ -29,11 +29,11 @@ pipeline {
     
  stage('Push Docker Image') {
             steps {
-                  withCredentials([usernamePassword(credentialsId: 'Jfrog-credentails', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
+                  withCredentials([usernamePassword(credentialsId: 'jfrog-credential', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USERNAME')]) {
        
                     sh '''
-                    docker login -u $JFROG_USERNAME -p $JFROG_PASSWORD devopsmurali.jfrog.io
-                        docker push devopsmurali.jfrog.io/web-application/web-app:$BUILD_NUMBER
+                    docker login -u $JFROG_USERNAME -p $JFROG_PASSWORD dilliraju.jfrog.io
+                        docker push dilliraju.jfrog.io/web-applications/web-app:$BUILD_NUMBER
                     '''
                 }
             } 
@@ -43,7 +43,7 @@ pipeline {
         stage('Deployto AWS EKS') {
             steps {
                 // configure AWS credentials
-               withAWS(credentials: 'AWS', region: 'us-east-1') {
+               withAWS(credentials: 'aws', region: 'us-east-1') {
 
                     // Connect to the EKS cluster
                     sh '''
@@ -51,7 +51,7 @@ pipeline {
      
                       cd kubernetes-yaml
                       kubectl apply -f .
-                      kubectl set image deployment/web-app web-application=devopsmurali.jfrog.io/web-application/web-app:$BUILD_NUMBER
+                      kubectl set image deployment/web-app web-applications=dilliraju.jfrog.io/web-applications/web-app:$BUILD_NUMBER
                  
                     '''
                 }
