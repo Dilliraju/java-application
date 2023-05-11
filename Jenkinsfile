@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools{
-        maven "Maven3.8.7"
+        maven "Maven3.9.1"
     }
     stages {
       stage('Clone the repository'){
         steps{
-          git branch: 'deploy-to-eks-ecr-jenkinsfile', credentialsId: 'Github_credentails', url: 'https://github.com/techworldwithmurali/java-application.git'
+          git branch: 'deploy-to-eks-ecr-jenkinsfile', credentialsId: 'Github-token', url: 'https://github.com/Dilliraju/java-application.git'
           
         } 
       }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh '''
               docker build . --tag web-application:$BUILD_NUMBER
-              docker tag web-application:$BUILD_NUMBER 108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
+              docker tag web-application:$BUILD_NUMBER 427112278691.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
                 
                 '''
                 
@@ -30,36 +30,16 @@ pipeline {
       
       stage('Push Docker Image') {
           steps{
- withAWS(credentials: 'AWS', region: 'us-east-1') {
+ withAWS(credentials: 'aws', region: 'us-east-1') {
        
                     sh '''
-                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 108290765801.dkr.ecr.us-east-1.amazonaws.com
-                   docker push 108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
+                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 427112278691.dkr.ecr.us-east-1.amazonaws.com
+                   docker push 427112278691.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
                     '''
                 }
             } 
             
       }
-        
-        stage('Deployto AWS EKS') {
-            steps {
-                // configure AWS credentials
-               withAWS(credentials: 'AWS', region: 'us-east-1') {
-
-                   // Connect to the EKS cluster
-                    sh '''
-                     aws eks update-kubeconfig --name dev-cluster --region us-east-1
-                     
-           
-                      cd kubernetes-yaml
-                      kubectl apply -f .
-                      kubectl set image deployment/web-app web-application=108290765801.dkr.ecr.us-east-1.amazonaws.com/web-application:$BUILD_NUMBER
-                    '''
-                }
-           
-        }
-            
-        }
-      
     }
 }
+
