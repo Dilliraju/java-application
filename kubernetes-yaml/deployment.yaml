@@ -19,4 +19,6 @@ spec:
         image: dilliraju.jfrog.io/artifactory/web-applications/web-app:latest
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: jfrogcred
       
