@@ -19,5 +19,5 @@ spec:
         image: dilliraju/web-application:latest
         ports:
         - containerPort: 8080
-      imagePullsecrets:
+      imagePullsecret:
       - name: dockerhubcred
