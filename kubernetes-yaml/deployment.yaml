@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: web-application
-        image: web-app:1
+        image: dilliraju/web-application:latest
         ports:
         - containerPort: 8080
-      imagePullSecrets:
-      - name: dockerhubcred
+      
